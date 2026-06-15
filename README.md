@@ -6,20 +6,36 @@ roll.
 
 When you open the app it asks for permission to read your photo library, then
 looks at today's month and day and pulls the photos you took on that same
-calendar day over the past several years, grouped year by year.
+calendar day — for the current year and the previous 50 — grouped year by year.
 
 ## How it works
 
+- `src/utils/memories.ts` — pure, framework-free helpers (year ranges, labels,
+  percentage formatting) that are unit-tested in isolation.
 - `src/hooks/use-memories.ts` — handles photo-library permissions and queries
-  the library one narrow date range per past year (using `expo-media-library`'s
-  `Query` builder) so it never scans the whole library.
+  the library one narrow date range per year (using `expo-media-library`'s
+  `Query` builder) so it never scans the whole library. It reports load
+  progress, and any failure surfaces as an `error` state instead of hanging.
+- `src/components/progress-bar.tsx` — the determinate progress indicator shown
+  while memories load.
 - `src/components/memory-row.tsx` — renders one year's memories as a hero image
   plus a thumbnail grid.
-- `src/app/index.tsx` — the "On This Day" feed, with loading, permission, and
-  empty states.
+- `src/app/index.tsx` — the single "On This Day" screen, with loading
+  (+progress), permission, error, and empty states. Navigation is a plain
+  `Stack` (no tabs).
 
 > Note: photo access requires a real device or simulator — `expo-media-library`
 > has no web implementation, so the web build shows an informational message.
+
+## Tests
+
+Unit tests cover the utils, hooks, and components and run with
+[`jest-expo`](https://docs.expo.dev/develop/unit-testing/) and
+[`@testing-library/react-native`](https://callstack.github.io/react-native-testing-library/):
+
+```bash
+npm test
+```
 
 ---
 

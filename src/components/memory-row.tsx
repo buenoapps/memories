@@ -5,13 +5,10 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import type { MemoryGroup } from '@/hooks/use-memories';
+import { photoCountLabel, yearsAgoLabel } from '@/utils/memories';
 
 /** Width of the lead (first) photo in a memory row. */
 const HERO_SIZE = Math.min(Dimensions.get('window').width - Spacing.four * 2, 520);
-
-function yearsAgoLabel(yearsAgo: number) {
-  return yearsAgo === 1 ? '1 year ago' : `${yearsAgo} years ago`;
-}
 
 /** Renders one year's memories: a headline plus the day's photos. */
 export function MemoryRow({ group }: { group: MemoryGroup }) {
@@ -22,8 +19,7 @@ export function MemoryRow({ group }: { group: MemoryGroup }) {
       <ThemedView style={styles.header}>
         <ThemedText type="subtitle">{group.year}</ThemedText>
         <ThemedText type="small" themeColor="textSecondary">
-          {yearsAgoLabel(group.yearsAgo)} · {group.photos.length}{' '}
-          {group.photos.length === 1 ? 'photo' : 'photos'}
+          {yearsAgoLabel(group.yearsAgo)} · {photoCountLabel(group.photos.length)}
         </ThemedText>
       </ThemedView>
 
