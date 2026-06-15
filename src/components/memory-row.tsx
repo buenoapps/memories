@@ -7,8 +7,14 @@ import { Spacing } from '@/constants/theme';
 import type { MemoryGroup } from '@/hooks/use-memories';
 import { photoCountLabel, yearsAgoLabel } from '@/utils/memories';
 
-/** Width of the lead (first) photo in a memory row. */
-const HERO_SIZE = Math.min(Dimensions.get('window').width - Spacing.four * 2, 520);
+/** Usable width of a memory row, matching the screen's content padding. */
+const ROW_WIDTH = Math.min(Dimensions.get('window').width - Spacing.four * 2, 520);
+
+/** Height of the lead (first) photo in a memory row. */
+const HERO_HEIGHT = ROW_WIDTH * 0.75;
+
+/** Square size of each thumbnail, sized to fit three across with gaps between. */
+const THUMB_SIZE = (ROW_WIDTH - Spacing.two * 2) / 3;
 
 /** Renders one year's memories: a headline plus the day's photos. */
 export function MemoryRow({ group }: { group: MemoryGroup }) {
@@ -51,7 +57,7 @@ const styles = StyleSheet.create({
   },
   hero: {
     width: '100%',
-    height: HERO_SIZE * 0.75,
+    height: HERO_HEIGHT,
     borderRadius: Spacing.three,
   },
   grid: {
@@ -60,9 +66,8 @@ const styles = StyleSheet.create({
     gap: Spacing.two,
   },
   thumb: {
-    width: '31%',
-    aspectRatio: 1,
-    flexGrow: 1,
+    width: THUMB_SIZE,
+    height: THUMB_SIZE,
     borderRadius: Spacing.two,
   },
 });
