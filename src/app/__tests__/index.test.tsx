@@ -1,17 +1,30 @@
 import { fireEvent, render } from '@testing-library/react-native';
 
 import MemoriesScreen from '@/app/index';
+import { PlaybackProvider } from '@/context/playback';
 import { useMemories, type MemoriesState } from '@/hooks/use-memories';
 
 // Manual factory so jest does not try to auto-mock the real hook, which would
 // load expo-media-library's native module (unavailable under jest).
-jest.mock('@/hooks/use-memories', () => ({ useMemories: jest.fn() }));
+// useFlatPhotos is reimplemented here to avoid that import.
+jest.mock('@/hooks/use-memories', () => {
+  const React = require('react');
+  return {
+    useMemories: jest.fn(),
+    useFlatPhotos: (groups: { photos: unknown[] }[]) =>
+      React.useMemo(() => groups.flatMap((group) => group.photos), [groups]),
+  };
+});
 
 const mockedUseMemories = useMemories as jest.MockedFunction<typeof useMemories>;
 
 function renderWith(state: MemoriesState) {
   mockedUseMemories.mockReturnValue(state);
-  return render(<MemoriesScreen />);
+  return render(
+    <PlaybackProvider>
+      <MemoriesScreen />
+    </PlaybackProvider>,
+  );
 }
 
 describe('MemoriesScreen', () => {
@@ -31,14 +44,16 @@ describe('MemoriesScreen', () => {
 
   it('renders the empty state when there are no memories', async () => {
     const { getByText } = await renderWith({ status: 'ready', groups: [], refresh: jest.fn() });
-    expect(getByText('No memories yet')).toBeTruthy();
+    expect(getByText(/No photos from/)).toBeTruthy();
   });
 
   it('renders memory rows when groups exist', async () => {
     const { getByText } = await renderWith({
       status: 'ready',
       refresh: jest.fn(),
-      groups: [{ year: 2024, yearsAgo: 2, photos: [{ id: '1', uri: 'file://1.jpg' }] }],
+      groups: [
+        { year: 2024, yearsAgo: 2, photos: [{ id: '1', uri: 'file://1.jpg', isVideo: false }] },
+      ],
     });
     expect(getByText('On This Day')).toBeTruthy();
     expect(getByText('2024')).toBeTruthy();

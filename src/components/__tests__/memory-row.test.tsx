@@ -8,9 +8,9 @@ function makeGroup(overrides: Partial<MemoryGroup> = {}): MemoryGroup {
     year: 2021,
     yearsAgo: 5,
     photos: [
-      { id: '1', uri: 'file://1.jpg' },
-      { id: '2', uri: 'file://2.jpg' },
-      { id: '3', uri: 'file://3.jpg' },
+      { id: '1', uri: 'file://1.jpg', isVideo: false },
+      { id: '2', uri: 'file://2.jpg', isVideo: false },
+      { id: '3', uri: 'file://3.jpg', isVideo: false },
     ],
     ...overrides,
   };
@@ -26,7 +26,11 @@ describe('MemoryRow', () => {
   it('labels the current year as Today with singular photo count', async () => {
     const { getByText } = await render(
       <MemoryRow
-        group={makeGroup({ year: 2026, yearsAgo: 0, photos: [{ id: '1', uri: 'file://1.jpg' }] })}
+        group={makeGroup({
+          year: 2026,
+          yearsAgo: 0,
+          photos: [{ id: '1', uri: 'file://1.jpg', isVideo: false }],
+        })}
       />,
     );
     expect(getByText('Today · 1 photo')).toBeTruthy();

@@ -57,7 +57,20 @@
           }
         }
       ],
-      "expo-image"
+      "expo-image",
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": false,
+          "supportsPictureInPicture": false
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#208AEF"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
