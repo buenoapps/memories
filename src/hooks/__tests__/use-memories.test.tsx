@@ -32,7 +32,12 @@ const mockGetPermissions = getPermissionsAsync as jest.Mock;
 const mockRequestPermissions = requestPermissionsAsync as jest.Mock;
 
 function asset(id: string) {
-  return { id, getUri: jest.fn().mockResolvedValue(`file://${id}.jpg`) };
+  // getUri is intentionally rejected: the hook must render from `id` and never
+  // call it (it throws for un-downloaded iCloud assets in the real module).
+  return {
+    id,
+    getUri: jest.fn().mockRejectedValue(new Error('Missing content editing input for image')),
+  };
 }
 
 beforeEach(() => {
@@ -44,7 +49,8 @@ describe('useMemories', () => {
   it('loads grouped photos when permission is granted', async () => {
     mockGetPermissions.mockResolvedValue({ granted: true, canAskAgain: true });
     // First query (this year) returns two photos, the rest return none.
-    mockExe.mockResolvedValueOnce([asset('a'), asset('b')]);
+    const first = asset('ph://a');
+    mockExe.mockResolvedValueOnce([first, asset('ph://b')]);
 
     const { result } = await renderHook(() => useMemories());
 
@@ -54,9 +60,11 @@ describe('useMemories', () => {
     expect(result.current.groups).toHaveLength(1);
     expect(result.current.groups[0]).toMatchObject({ yearsAgo: 0 });
     expect(result.current.groups[0].photos).toEqual([
-      { id: 'a', uri: 'file://a.jpg' },
-      { id: 'b', uri: 'file://b.jpg' },
+      { id: 'ph://a', uri: 'ph://a' },
+      { id: 'ph://b', uri: 'ph://b' },
     ]);
+    // The fragile getUri() native call must not be used.
+    expect(first.getUri).not.toHaveBeenCalled();
   });
 
   it('reports the denied state when permission cannot be requested', async () => {

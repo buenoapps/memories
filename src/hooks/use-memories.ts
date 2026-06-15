@@ -13,6 +13,15 @@ import { buildYears, dayRange, YEARS_BACK } from '@/utils/memories';
 /** A photo resolved to the fields the UI needs to render it. */
 export type MemoryPhoto = {
   id: string;
+  /**
+   * URI used as the image source. This is the asset's own identifier URI
+   * (`ph://…` on iOS, `content://…` on Android), which `expo-image` loads
+   * directly. We deliberately avoid `Asset.getUri()` here: it extracts the
+   * full-size original via `PHContentEditingInput` without network access, so
+   * it throws "Missing content editing input for image" for iCloud photos that
+   * aren't downloaded locally. Loading by `id` lets expo-image fetch a
+   * display-sized (and, if needed, iCloud-backed) version instead.
+   */
   uri: string;
 };
 
@@ -76,9 +85,7 @@ export function useMemories(): MemoriesState {
           .exe();
 
         if (assets.length > 0) {
-          const photos = await Promise.all(
-            assets.map(async (asset) => ({ id: asset.id, uri: await asset.getUri() })),
-          );
+          const photos = assets.map((asset) => ({ id: asset.id, uri: asset.id }));
           groups.push({ year, yearsAgo, photos });
         }
 
