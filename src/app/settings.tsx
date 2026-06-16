@@ -1,7 +1,16 @@
 import * as Application from 'expo-application';
 import * as Linking from 'expo-linking';
 import { router } from 'expo-router';
-import { Alert, Pressable, ScrollView, Share, StyleSheet, View } from 'react-native';
+import { useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  ScrollView,
+  Share,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '@/components/icon';
@@ -21,17 +30,39 @@ function SettingsRow({
   label,
   detail,
   onPress,
+  loading = false,
+  showChevron = true,
 }: {
   icon: IconName;
   label: string;
   detail?: string;
   onPress?: () => void;
+  loading?: boolean;
+  showChevron?: boolean;
 }) {
   const theme = useTheme();
+
+  const renderAccessory = () => {
+    if (detail) {
+      return (
+        <ThemedText type="small" themeColor="textSecondary">
+          {detail}
+        </ThemedText>
+      );
+    }
+    if (loading) {
+      return <ActivityIndicator size="small" color={theme.textSecondary} />;
+    }
+    if (onPress && showChevron) {
+      return <Icon name="chevronRight" size={16} color={theme.textSecondary} />;
+    }
+    return null;
+  };
+
   return (
     <Pressable
       accessibilityRole={onPress ? 'button' : undefined}
-      disabled={!onPress}
+      disabled={!onPress || loading}
       onPress={onPress}
       style={({ pressed }) => [
         styles.row,
@@ -40,19 +71,14 @@ function SettingsRow({
       ]}>
       <Icon name={icon} size={20} color={theme.text} />
       <ThemedText style={styles.rowLabel}>{label}</ThemedText>
-      {detail ? (
-        <ThemedText type="small" themeColor="textSecondary">
-          {detail}
-        </ThemedText>
-      ) : (
-        onPress && <Icon name="chevronRight" size={16} color={theme.textSecondary} />
-      )}
+      {renderAccessory()}
     </Pressable>
   );
 }
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
+  const [refreshing, setRefreshing] = useState(false);
 
   const shareApp = async () => {
     try {
@@ -68,6 +94,7 @@ export default function SettingsScreen() {
   };
 
   const refreshNotifications = async () => {
+    setRefreshing(true);
     try {
       const count = await refreshMemoryNotifications();
       Alert.alert(
@@ -78,6 +105,8 @@ export default function SettingsScreen() {
       );
     } catch {
       Alert.alert('Reminders', 'Could not update reminders. Check photo and notification access.');
+    } finally {
+      setRefreshing(false);
     }
   };
 
@@ -104,13 +133,15 @@ export default function SettingsScreen() {
             icon="calendar"
             label="Refresh daily reminders"
             onPress={refreshNotifications}
+            loading={refreshing}
+            showChevron={false}
           />
 
           <ThemedText type="small" themeColor="textSecondary" style={styles.sectionTitle}>
             SUPPORT THE APP
           </ThemedText>
-          <SettingsRow icon="share" label="Share this app" onPress={shareApp} />
-          <SettingsRow icon="star" label="Rate this app" onPress={rateApp} />
+          <SettingsRow icon="share" label="Share this app" onPress={shareApp} showChevron={false} />
+          <SettingsRow icon="star" label="Rate this app" onPress={rateApp} showChevron={false} />
 
           <ThemedText type="small" themeColor="textSecondary" style={styles.sectionTitle}>
             ABOUT
