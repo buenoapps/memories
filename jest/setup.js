@@ -77,9 +77,18 @@ jest.mock('expo-media-library', () => {
     },
     MediaType: { IMAGE: 'image', VIDEO: 'video' },
     Query,
+    // The new asset API used by src/utils/share.ts. `getUri()` resolves to a
+    // shareable file:// URI for downloaded assets.
+    Asset: class Asset {
+      constructor(id) {
+        this.id = id;
+      }
+      getUri() {
+        return Promise.resolve('file://x.jpg');
+      }
+    },
     getPermissionsAsync: jest.fn().mockResolvedValue({ granted: false, canAskAgain: false }),
     requestPermissionsAsync: jest.fn().mockResolvedValue({ granted: false, canAskAgain: false }),
-    getAssetInfoAsync: jest.fn().mockResolvedValue({ localUri: 'file://x.jpg', uri: 'file://x.jpg' }),
   };
 });
 

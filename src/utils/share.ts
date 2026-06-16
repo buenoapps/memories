@@ -1,14 +1,25 @@
-import { getAssetInfoAsync } from 'expo-media-library';
+import { Asset } from 'expo-media-library';
 import * as Sharing from 'expo-sharing';
 
 /**
- * Resolves an asset to a shareable local file URI. Photos that live only in
- * iCloud are downloaded on demand so the share sheet has a real file to hand to
- * other apps.
+ * Resolves an asset to a shareable local file URI. The asset `id` is the
+ * library identifier (`ph://…` on iOS, `content://…` on Android) produced by
+ * the `Query` API; `Asset.getUri()` turns it into a concrete `file://` URI that
+ * the share sheet and the video player can hand to other modules.
+ *
+ * The legacy `getAssetInfoAsync` helper is intentionally avoided: in SDK 56 it
+ * throws at runtime unless imported from `expo-media-library/legacy`, which is
+ * what previously broke sharing (and inline video playback) on every screen.
+ * `getUri()` can still reject for assets that live only in iCloud, so callers
+ * get `null` rather than a thrown error.
  */
 export async function resolveShareUri(id: string): Promise<string | null> {
-  const info = await getAssetInfoAsync(id, { shouldDownloadFromNetwork: true });
-  return info.localUri ?? info.uri ?? null;
+  try {
+    const uri = await new Asset(id).getUri();
+    return uri ?? null;
+  } catch {
+    return null;
+  }
 }
 
 /**
