@@ -1,8 +1,11 @@
 import {
+  buildSingleYear,
   buildYears,
   dayRange,
   formatDayLabel,
   formatPercent,
+  formatRelativeDayLabel,
+  isSameMonthDay,
   photoCountLabel,
   YEARS_BACK,
   yearsAgoLabel,
@@ -22,6 +25,31 @@ describe('buildYears', () => {
   it('returns yearsBack + 1 entries and defaults to YEARS_BACK', () => {
     expect(buildYears(new Date(2026, 0, 1), 10)).toHaveLength(11);
     expect(buildYears(new Date(2026, 0, 1))).toHaveLength(YEARS_BACK + 1);
+  });
+});
+
+describe('buildSingleYear', () => {
+  it('returns one entry with yearsAgo relative to the anchor', () => {
+    expect(buildSingleYear(new Date(2026, 5, 15), 2020)).toEqual([{ year: 2020, yearsAgo: 6 }]);
+  });
+});
+
+describe('isSameMonthDay', () => {
+  it('ignores the year', () => {
+    expect(isSameMonthDay(new Date(2026, 5, 15), new Date(2001, 5, 15))).toBe(true);
+    expect(isSameMonthDay(new Date(2026, 5, 15), new Date(2026, 5, 16))).toBe(false);
+  });
+});
+
+describe('formatRelativeDayLabel', () => {
+  it('returns "Today" for the current month/day', () => {
+    const now = new Date(2026, 5, 15);
+    expect(formatRelativeDayLabel(new Date(2026, 5, 15), now)).toBe('Today');
+  });
+
+  it('returns the day label for other days', () => {
+    const now = new Date(2026, 5, 15);
+    expect(formatRelativeDayLabel(new Date(2026, 5, 16), now)).toContain('16');
   });
 });
 

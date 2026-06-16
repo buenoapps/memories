@@ -8,17 +8,23 @@ const mockExe = jest.fn();
 
 jest.mock('expo-media-library', () => ({
   AssetField: { MEDIA_TYPE: 'mediaType', CREATION_TIME: 'creationTime' },
-  MediaType: { IMAGE: 'image' },
+  MediaType: { IMAGE: 'image', VIDEO: 'video' },
   getPermissionsAsync: jest.fn(),
   requestPermissionsAsync: jest.fn(),
   Query: jest.fn().mockImplementation(() => ({
     eq() {
       return this;
     },
+    within() {
+      return this;
+    },
     gte() {
       return this;
     },
     lte() {
+      return this;
+    },
+    limit() {
       return this;
     },
     orderBy() {
@@ -60,8 +66,8 @@ describe('useMemories', () => {
     expect(result.current.groups).toHaveLength(1);
     expect(result.current.groups[0]).toMatchObject({ yearsAgo: 0 });
     expect(result.current.groups[0].photos).toEqual([
-      { id: 'ph://a', uri: 'ph://a' },
-      { id: 'ph://b', uri: 'ph://b' },
+      { id: 'ph://a', uri: 'ph://a', isVideo: false },
+      { id: 'ph://b', uri: 'ph://b', isVideo: false },
     ]);
     // The fragile getUri() native call must not be used.
     expect(first.getUri).not.toHaveBeenCalled();

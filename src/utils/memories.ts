@@ -26,6 +26,14 @@ export function buildYears(now: Date, yearsBack: number = YEARS_BACK): MemoryYea
   return years;
 }
 
+/**
+ * Builds the search list narrowed to a single year, keeping `yearsAgo` relative
+ * to the anchor date. Used by the per-year detail page.
+ */
+export function buildSingleYear(anchor: Date, year: number): MemoryYear[] {
+  return [{ year, yearsAgo: anchor.getFullYear() - year }];
+}
+
 /** Returns the inclusive [start, end] epoch-ms range for a single calendar day. */
 export function dayRange(year: number, month: number, day: number): { start: number; end: number } {
   return {
@@ -49,6 +57,19 @@ export function photoCountLabel(count: number): string {
 /** Formats the day-of-year label shown in the header, e.g. "June 15". */
 export function formatDayLabel(date: Date): string {
   return date.toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+}
+
+/** True when two dates fall on the same calendar month and day (year ignored). */
+export function isSameMonthDay(a: Date, b: Date): boolean {
+  return a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+/**
+ * A short label for the day a memory set is showing, used in headers and
+ * buttons. Returns "Today" when the date is today's month/day.
+ */
+export function formatRelativeDayLabel(date: Date, now: Date = new Date()): string {
+  return isSameMonthDay(date, now) ? 'Today' : formatDayLabel(date);
 }
 
 /** Clamps a 0..1 progress value and renders it as a whole-number percentage. */
