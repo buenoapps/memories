@@ -10,6 +10,7 @@ import { IconButton } from '@/components/icon-button';
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import { usePlayback } from '@/context/playback';
+import { useFreeOrientationWhileMounted } from '@/hooks/use-orientation';
 import {
   clampIndex,
   DEFAULT_SPEED_INDEX,
@@ -19,6 +20,7 @@ import {
 } from '@/utils/slideshow';
 
 export default function SlideshowScreen() {
+  useFreeOrientationWhileMounted();
   const insets = useSafeAreaInsets();
   const { photos } = usePlayback();
 

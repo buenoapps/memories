@@ -3,7 +3,7 @@
     "name": "memories",
     "slug": "memories",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "memories",
     "userInterfaceStyle": "automatic",
@@ -58,6 +58,12 @@
         }
       ],
       "expo-image",
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "PORTRAIT_UP"
+        }
+      ],
       [
         "expo-video",
         {
