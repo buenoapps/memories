@@ -9,6 +9,7 @@ import { AnimatedSplashOverlay } from '@/components/animated-icon';
 import { PlaybackProvider } from '@/context/playback';
 import { lockPortrait } from '@/hooks/use-orientation';
 import { useMemoryNotifications } from '@/hooks/use-notifications';
+import { SettingsProvider } from '@/hooks/use-settings';
 
 // Show scheduled "On This Day" reminders while the app is foregrounded too.
 Notifications.setNotificationHandler({
@@ -34,22 +35,24 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <PlaybackProvider>
-            <AnimatedSplashOverlay />
-            <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="index" />
-              <Stack.Screen name="year/[year]" />
-              <Stack.Screen name="settings" options={{ presentation: 'card' }} />
-              <Stack.Screen
-                name="viewer"
-                options={{ presentation: 'transparentModal', animation: 'fade' }}
-              />
-              <Stack.Screen
-                name="slideshow"
-                options={{ presentation: 'fullScreenModal', animation: 'fade' }}
-              />
-            </Stack>
-          </PlaybackProvider>
+          <SettingsProvider>
+            <PlaybackProvider>
+              <AnimatedSplashOverlay />
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="index" />
+                <Stack.Screen name="year/[year]" />
+                <Stack.Screen name="settings" options={{ presentation: 'card' }} />
+                <Stack.Screen
+                  name="viewer"
+                  options={{ presentation: 'transparentModal', animation: 'fade' }}
+                />
+                <Stack.Screen
+                  name="slideshow"
+                  options={{ presentation: 'fullScreenModal', animation: 'fade' }}
+                />
+              </Stack>
+            </PlaybackProvider>
+          </SettingsProvider>
         </ThemeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

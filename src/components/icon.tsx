@@ -20,7 +20,9 @@ export type IconName =
   | 'star'
   | 'next'
   | 'previous'
-  | 'video';
+  | 'video'
+  | 'clock'
+  | 'bell';
 
 /** SF Symbol names (iOS) and Unicode fallbacks (Android/web) for each icon. */
 const ICONS: Record<IconName, { sf: SFSymbol; glyph: string }> = {
@@ -39,6 +41,8 @@ const ICONS: Record<IconName, { sf: SFSymbol; glyph: string }> = {
   next: { sf: 'forward.fill', glyph: '⏭' },
   previous: { sf: 'backward.fill', glyph: '⏮' },
   video: { sf: 'video.fill', glyph: '🎬' },
+  clock: { sf: 'clock', glyph: '🕐' },
+  bell: { sf: 'bell', glyph: '🔔' },
 };
 
 export type IconProps = {

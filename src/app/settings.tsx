@@ -1,7 +1,7 @@
 import * as Application from 'expo-application';
 import * as Linking from 'expo-linking';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -17,10 +17,13 @@ import { Icon, type IconName } from '@/components/icon';
 import { IconButton } from '@/components/icon-button';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { TimePickerModal } from '@/components/time-picker-modal';
 import { APP_REVIEW_URL, APP_SHARE_MESSAGE, APP_SHARE_URL } from '@/constants/app';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { refreshMemoryNotifications } from '@/hooks/use-notifications';
+import { useSettings } from '@/hooks/use-settings';
+import { formatHour, type Settings } from '@/utils/settings';
 
 const version = Application.nativeApplicationVersion ?? '1.0.0';
 const build = Application.nativeBuildVersion;
@@ -76,9 +79,45 @@ function SettingsRow({
   );
 }
 
+/** Which time setting the picker is currently editing. */
+type TimeField = 'dayStartHour' | 'dayEndHour' | 'notificationHour';
+
+const TIME_PICKER_TITLES: Record<TimeField, string> = {
+  dayStartHour: 'Day starts at',
+  dayEndHour: 'Day ends at',
+  notificationHour: 'Reminder time',
+};
+
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
   const [refreshing, setRefreshing] = useState(false);
+  const { settings, update } = useSettings();
+  const [activeField, setActiveField] = useState<TimeField | null>(null);
+  // Mirror the latest settings synchronously so closing the picker can reschedule
+  // with the new values even on Android, where change + close fire in one event
+  // before the async persist has flushed.
+  const latestSettings = useRef(settings);
+  latestSettings.current = settings;
+  // Set while a picker is open if the user actually changes its value, so we
+  // only rebuild the (expensive) notification schedule when something changed.
+  const pickerDirty = useRef(false);
+
+  const handlePickHour = (field: TimeField, hour: number) => {
+    if (hour === latestSettings.current[field]) return;
+    pickerDirty.current = true;
+    const next: Settings = { ...latestSettings.current, [field]: hour };
+    latestSettings.current = next;
+    update({ [field]: hour } as Partial<Settings>);
+  };
+
+  const closePicker = () => {
+    setActiveField(null);
+    if (pickerDirty.current) {
+      pickerDirty.current = false;
+      // Reschedule with the new times; best effort, ignore missing permissions.
+      refreshMemoryNotifications(new Date(), latestSettings.current).catch(() => {});
+    }
+  };
 
   const shareApp = async () => {
     try {
@@ -127,8 +166,34 @@ export default function SettingsScreen() {
         ]}>
         <View style={styles.content}>
           <ThemedText type="small" themeColor="textSecondary" style={styles.sectionTitle}>
+            MEMORY DAY
+          </ThemedText>
+          <SettingsRow
+            icon="clock"
+            label="Day starts at"
+            detail={formatHour(settings.dayStartHour)}
+            onPress={() => setActiveField('dayStartHour')}
+          />
+          <SettingsRow
+            icon="clock"
+            label="Day ends at"
+            detail={formatHour(settings.dayEndHour)}
+            onPress={() => setActiveField('dayEndHour')}
+          />
+          <ThemedText type="small" themeColor="textSecondary" style={styles.sectionHint}>
+            Photos are grouped from the start time on a day until the end time the next morning, so
+            late-night shots still show with the right day.
+          </ThemedText>
+
+          <ThemedText type="small" themeColor="textSecondary" style={styles.sectionTitle}>
             REMINDERS
           </ThemedText>
+          <SettingsRow
+            icon="bell"
+            label="Reminder time"
+            detail={formatHour(settings.notificationHour)}
+            onPress={() => setActiveField('notificationHour')}
+          />
           <SettingsRow
             icon="calendar"
             label="Refresh daily reminders"
@@ -153,6 +218,14 @@ export default function SettingsScreen() {
           />
         </View>
       </ScrollView>
+
+      <TimePickerModal
+        visible={activeField !== null}
+        title={activeField ? TIME_PICKER_TITLES[activeField] : ''}
+        hour={activeField ? settings[activeField] : 0}
+        onChangeHour={(hour) => activeField && handlePickHour(activeField, hour)}
+        onClose={closePicker}
+      />
     </ThemedView>
   );
 }
@@ -190,6 +263,10 @@ const styles = StyleSheet.create({
     marginTop: Spacing.four,
     marginBottom: Spacing.one,
     marginLeft: Spacing.two,
+  },
+  sectionHint: {
+    marginTop: Spacing.one,
+    marginHorizontal: Spacing.two,
   },
   row: {
     flexDirection: 'row',

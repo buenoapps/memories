@@ -3,8 +3,10 @@ import * as Notifications from 'expo-notifications';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
+import { loadSettings } from '@/hooks/use-settings';
 import { dayRange } from '@/utils/memories';
-import { buildLookaheadDays, notificationBody } from '@/utils/notifications-schedule';
+import { buildLookaheadDays, LOOKAHEAD_DAYS, notificationBody } from '@/utils/notifications-schedule';
+import { type Settings } from '@/utils/settings';
 
 /** How many years back the morning scan looks when counting a day's memories. */
 const NOTIF_YEARS_BACK = 10;
@@ -25,10 +27,16 @@ export async function ensureNotificationPermission(): Promise<boolean> {
 }
 
 /** Counts how many memories exist for a given month/day across recent years. */
-async function countMemoriesForDay(month: number, day: number, fromYear: number): Promise<number> {
+async function countMemoriesForDay(
+  month: number,
+  day: number,
+  fromYear: number,
+  startHour: number,
+  endHour: number,
+): Promise<number> {
   let total = 0;
   for (let year = fromYear - 1; year >= fromYear - NOTIF_YEARS_BACK; year--) {
-    const { start, end } = dayRange(year, month, day);
+    const { start, end } = dayRange(year, month, day, startHour, endHour);
     const assets = await new Query()
       .within(AssetField.MEDIA_TYPE, [MediaType.IMAGE, MediaType.VIDEO])
       .gte(AssetField.CREATION_TIME, start)
@@ -45,10 +53,17 @@ async function countMemoriesForDay(month: number, day: number, fromYear: number)
  * the next ~30 days, scanning the library for each upcoming day and only
  * scheduling days that actually have memories. Returns how many were scheduled.
  */
-export async function refreshMemoryNotifications(now: Date = new Date()): Promise<number> {
+export async function refreshMemoryNotifications(
+  now: Date = new Date(),
+  settings?: Settings,
+): Promise<number> {
+  // The scheduler runs outside React (at startup and from the settings screen),
+  // so it reads the persisted settings directly unless they are passed in.
+  const { dayStartHour, dayEndHour, notificationHour } = settings ?? (await loadSettings());
+
   await Notifications.cancelAllScheduledNotificationsAsync();
 
-  const mornings = buildLookaheadDays(now);
+  const mornings = buildLookaheadDays(now, LOOKAHEAD_DAYS, notificationHour);
   let scheduled = 0;
 
   for (const morning of mornings) {
@@ -56,6 +71,8 @@ export async function refreshMemoryNotifications(now: Date = new Date()): Promis
       morning.getMonth(),
       morning.getDate(),
       morning.getFullYear(),
+      dayStartHour,
+      dayEndHour,
     );
     if (count > 0) {
       await Notifications.scheduleNotificationAsync({
