@@ -1,5 +1,29 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
+// AsyncStorage has no native module under jest; back it with a simple in-memory
+// store so settings persistence can be exercised without the native bridge.
+jest.mock('@react-native-async-storage/async-storage', () => {
+  let store = {};
+  return {
+    __esModule: true,
+    default: {
+      getItem: jest.fn((key) => Promise.resolve(key in store ? store[key] : null)),
+      setItem: jest.fn((key, value) => {
+        store[key] = value;
+        return Promise.resolve();
+      }),
+      removeItem: jest.fn((key) => {
+        delete store[key];
+        return Promise.resolve();
+      }),
+      clear: jest.fn(() => {
+        store = {};
+        return Promise.resolve();
+      }),
+    },
+  };
+});
+
 // expo-image renders a native view; swap it for a plain RN View in tests.
 jest.mock('expo-image', () => {
   const React = require('react');

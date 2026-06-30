@@ -54,10 +54,25 @@ describe('formatRelativeDayLabel', () => {
 });
 
 describe('dayRange', () => {
-  it('spans a full calendar day in epoch milliseconds', () => {
+  it('spans a full calendar day in epoch milliseconds by default', () => {
     const { start, end } = dayRange(2024, 5, 15);
     expect(start).toBe(new Date(2024, 5, 15, 0, 0, 0, 0).getTime());
     expect(end - start).toBe(24 * 60 * 60 * 1000 - 1);
+  });
+
+  it('runs from the start hour until the end hour the next morning', () => {
+    const { start, end } = dayRange(2024, 5, 15, 4, 4);
+    expect(start).toBe(new Date(2024, 5, 15, 4, 0, 0, 0).getTime());
+    // 4am to 4am the next day is a 24h window, exclusive of the final instant.
+    expect(end).toBe(new Date(2024, 5, 16, 4, 0, 0, 0).getTime() - 1);
+    expect(end - start).toBe(24 * 60 * 60 * 1000 - 1);
+  });
+
+  it('can stretch past midnight, e.g. midnight until 4am the next day', () => {
+    const { start, end } = dayRange(2024, 5, 15, 0, 4);
+    expect(start).toBe(new Date(2024, 5, 15, 0, 0, 0, 0).getTime());
+    expect(end).toBe(new Date(2024, 5, 16, 4, 0, 0, 0).getTime() - 1);
+    expect(end - start).toBe(28 * 60 * 60 * 1000 - 1);
   });
 });
 

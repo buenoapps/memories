@@ -8,6 +8,7 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 
+import { useSettings } from '@/hooks/use-settings';
 import { buildSingleYear, buildYears, dayRange, YEARS_BACK } from '@/utils/memories';
 
 /** A photo (or video) resolved to the fields the UI needs to render it. */
@@ -63,6 +64,11 @@ export function useMemories(options?: UseMemoriesOptions): MemoriesState {
   const [state, setState] = useState<MemoriesState>({ status: 'loading', progress: 0 });
   const mountedRef = useRef(true);
 
+  // The configurable window that defines a "day" of memories. Photos taken
+  // shortly after midnight can belong to the previous day depending on these.
+  const { settings } = useSettings();
+  const { dayStartHour, dayEndHour } = settings;
+
   // Derive stable primitive dependencies so the effect only re-runs when the
   // actual day/year being viewed changes, not on every render.
   const anchorTime = options?.date?.getTime();
@@ -91,7 +97,7 @@ export function useMemories(options?: UseMemoriesOptions): MemoriesState {
 
       for (let i = 0; i < years.length; i++) {
         const { year, yearsAgo } = years[i];
-        const { start, end } = dayRange(year, month, day);
+        const { start, end } = dayRange(year, month, day, dayStartHour, dayEndHour);
 
         // One query for everything visible (images + videos) in shot order, and
         // a second, cheap query for just the videos so we can flag them without
@@ -130,7 +136,7 @@ export function useMemories(options?: UseMemoriesOptions): MemoriesState {
         retry: loadGroups,
       });
     }
-  }, [anchorTime, onlyYear, setSafe]);
+  }, [anchorTime, onlyYear, dayStartHour, dayEndHour, setSafe]);
 
   const requestPermission = useCallback(async () => {
     try {

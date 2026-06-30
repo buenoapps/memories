@@ -34,11 +34,26 @@ export function buildSingleYear(anchor: Date, year: number): MemoryYear[] {
   return [{ year, yearsAgo: anchor.getFullYear() - year }];
 }
 
-/** Returns the inclusive [start, end] epoch-ms range for a single calendar day. */
-export function dayRange(year: number, month: number, day: number): { start: number; end: number } {
+/**
+ * Returns the inclusive [start, end] epoch-ms range for a memory "day".
+ *
+ * A day starts at `startHour` on the given calendar day and runs until
+ * `endHour` on the *following* day, so photos taken shortly after midnight can
+ * still be grouped with the previous day. With the default hours (0 → 0) this
+ * collapses to a single calendar day: 00:00:00.000 to 23:59:59.999.
+ */
+export function dayRange(
+  year: number,
+  month: number,
+  day: number,
+  startHour: number = 0,
+  endHour: number = 0,
+): { start: number; end: number } {
   return {
-    start: new Date(year, month, day, 0, 0, 0, 0).getTime(),
-    end: new Date(year, month, day, 23, 59, 59, 999).getTime(),
+    start: new Date(year, month, day, startHour, 0, 0, 0).getTime(),
+    // The window is exclusive of the exact end hour so it never overlaps the
+    // following day's window; subtract a millisecond to keep `lte` inclusive.
+    end: new Date(year, month, day + 1, endHour, 0, 0, 0).getTime() - 1,
   };
 }
 
