@@ -1,0 +1,96 @@
+{
+  "common": {
+    "back": "Natrag",
+    "cancel": "Odustani",
+    "done": "Gotovo",
+    "close": "Zatvori",
+    "share": "Podijeli",
+    "tryAgain": "Pokušaj ponovno"
+  },
+  "home": {
+    "onThisDay": "Na današnji dan",
+    "emptyHint": "Nema fotografija od {{day}} u prethodnim godinama. Odaberite drugi dan za prisjećanje."
+  },
+  "year": {
+    "emptyHint": "Nema fotografija od {{day}}, {{year}}."
+  },
+  "status": {
+    "loadingTitle": "Prisjećamo se …",
+    "loadingBody": "Tražimo vaše fotografije s ovog dana.",
+    "unsupportedTitle": "Otvorite na telefonu",
+    "unsupportedBody": "Memories čita fotografije iz biblioteke vašeg uređaja, pa radi na iOS-u i Androidu.",
+    "deniedTitle": "Potreban je pristup fotografijama",
+    "deniedBodyCanAsk": "Dopustite pristup svojim fotografijama kako bi vam Memories mogao pokazati što ste zabilježili na ovaj dan.",
+    "deniedBodySettings": "Omogućite aplikaciji Memories pristup fotografijama u postavkama uređaja kako biste vidjeli svoje fotografije s ovog dana.",
+    "errorTitle": "Nešto je pošlo po zlu",
+    "emptyTitle": "Još nema uspomena",
+    "loadError": "Nije moguće učitati vaše fotografije.",
+    "accessError": "Nije moguće pristupiti vašim fotografijama.",
+    "requestError": "Nije moguće zatražiti pristup fotografijama."
+  },
+  "selection": {
+    "select": "Odaberi",
+    "selectAll": "Odaberi sve",
+    "clear": "Očisti",
+    "selectItems": "Odaberi stavke",
+    "selectedCount": "Odabrano: {{count}}"
+  },
+  "actions": {
+    "startSlideshow": "Pokreni prezentaciju",
+    "settings": "Postavke",
+    "more": "Više radnji"
+  },
+  "memory": {
+    "today": "Danas",
+    "yearAgoOne": "prije 1 godine",
+    "yearsAgoOther": "prije {{count}} godina",
+    "photoOne": "{{count}} fotografija",
+    "photoOther": "{{count}} fotografija"
+  },
+  "datePicker": {
+    "title": "Odaberite dan"
+  },
+  "slideshow": {
+    "speedSlow": "Sporo",
+    "speedNormal": "Normalno",
+    "speedFast": "Brzo",
+    "counter": "{{index}} od {{total}}",
+    "previous": "Prethodna",
+    "play": "Reproduciraj",
+    "pause": "Pauziraj",
+    "next": "Sljedeća"
+  },
+  "video": {
+    "cannotPlay": "Ovaj se videozapis ne može reproducirati."
+  },
+  "settings": {
+    "title": "Postavke",
+    "sectionMemoryDay": "DAN USPOMENA",
+    "dayStartsAt": "Dan počinje u",
+    "dayEndsAt": "Dan završava u",
+    "memoryDayHint": "Fotografije su grupirane od početnog vremena u danu do završnog vremena sljedećeg jutra, tako da se noćne snimke i dalje prikazuju uz ispravan dan.",
+    "sectionReminders": "PODSJETNICI",
+    "reminderTime": "Vrijeme podsjetnika",
+    "refreshReminders": "Osvježi dnevne podsjetnike",
+    "sectionLanguage": "JEZIK",
+    "language": "Jezik",
+    "systemDefault": "Zadano u sustavu",
+    "chooseLanguage": "Odaberite jezik",
+    "sectionSupport": "PODRŽITE APLIKACIJU",
+    "shareApp": "Podijeli ovu aplikaciju",
+    "rateApp": "Ocijeni ovu aplikaciju",
+    "sectionAbout": "O APLIKACIJI",
+    "version": "Verzija",
+    "remindersUpdatedTitle": "Podsjetnici ažurirani",
+    "remindersScheduledOne": "Zakazan {{count}} jutarnji podsjetnik za nadolazeće uspomene.",
+    "remindersScheduledOther": "Zakazano {{count}} jutarnjih podsjetnika za nadolazeće uspomene.",
+    "remindersNone": "Nema pronađenih nadolazećih uspomena u sljedećih 30 dana.",
+    "remindersErrorTitle": "Podsjetnici",
+    "remindersError": "Nije moguće ažurirati podsjetnike. Provjerite pristup fotografijama i obavijestima."
+  },
+  "notification": {
+    "title": "Na današnji dan 📸",
+    "bodyOne": "Imate 1 uspomenu s ovog dana iz prošlih godina.",
+    "bodyOther": "Imate {{count}} uspomena s ovog dana iz prošlih godina."
+  }
+}

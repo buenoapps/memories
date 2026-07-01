@@ -1,0 +1,96 @@
+{
+  "common": {
+    "back": "Nazaj",
+    "cancel": "Prekliči",
+    "done": "Končano",
+    "close": "Zapri",
+    "share": "Deli",
+    "tryAgain": "Poskusi znova"
+  },
+  "home": {
+    "onThisDay": "Na ta dan",
+    "emptyHint": "Ni fotografij z dne {{day}} v prejšnjih letih. Izberite drug dan za obujanje spominov."
+  },
+  "year": {
+    "emptyHint": "Ni fotografij z dne {{day}}, {{year}}."
+  },
+  "status": {
+    "loadingTitle": "Obujamo spomine …",
+    "loadingBody": "Iščemo vaše fotografije s tega dne.",
+    "unsupportedTitle": "Odprite v telefonu",
+    "unsupportedBody": "Memories bere fotografije iz knjižnice vaše naprave, zato deluje v sistemih iOS in Android.",
+    "deniedTitle": "Potreben je dostop do fotografij",
+    "deniedBodyCanAsk": "Dovolite dostop do svojih fotografij, da vam Memories lahko pokaže, kaj ste ujeli na ta dan.",
+    "deniedBodySettings": "V nastavitvah naprave omogočite aplikaciji Memories dostop do fotografij, da si ogledate svoje fotografije s tega dne.",
+    "errorTitle": "Nekaj je šlo narobe",
+    "emptyTitle": "Zaenkrat še ni spominov",
+    "loadError": "Vaših fotografij ni bilo mogoče naložiti.",
+    "accessError": "Do vaših fotografij ni bilo mogoče dostopati.",
+    "requestError": "Dostopa do fotografij ni bilo mogoče zahtevati."
+  },
+  "selection": {
+    "select": "Izberi",
+    "selectAll": "Izberi vse",
+    "clear": "Počisti",
+    "selectItems": "Izberi elemente",
+    "selectedCount": "Izbrano: {{count}}"
+  },
+  "actions": {
+    "startSlideshow": "Začni diaprojekcijo",
+    "settings": "Nastavitve",
+    "more": "Več dejanj"
+  },
+  "memory": {
+    "today": "Danes",
+    "yearAgoOne": "pred 1 letom",
+    "yearsAgoOther": "pred {{count}} leti",
+    "photoOne": "{{count}} fotografija",
+    "photoOther": "{{count}} fotografij"
+  },
+  "datePicker": {
+    "title": "Izberite dan"
+  },
+  "slideshow": {
+    "speedSlow": "Počasi",
+    "speedNormal": "Običajno",
+    "speedFast": "Hitro",
+    "counter": "{{index}} od {{total}}",
+    "previous": "Prejšnja",
+    "play": "Predvajaj",
+    "pause": "Zaustavi",
+    "next": "Naslednja"
+  },
+  "video": {
+    "cannotPlay": "Tega videoposnetka ni mogoče predvajati."
+  },
+  "settings": {
+    "title": "Nastavitve",
+    "sectionMemoryDay": "DAN SPOMINOV",
+    "dayStartsAt": "Dan se začne ob",
+    "dayEndsAt": "Dan se konča ob",
+    "memoryDayHint": "Fotografije so združene od začetnega časa dneva do končnega časa naslednje jutro, tako da se nočni posnetki še vedno prikažejo ob pravem dnevu.",
+    "sectionReminders": "OPOMNIKI",
+    "reminderTime": "Čas opomnika",
+    "refreshReminders": "Osveži dnevne opomnike",
+    "sectionLanguage": "JEZIK",
+    "language": "Jezik",
+    "systemDefault": "Privzeto v sistemu",
+    "chooseLanguage": "Izberite jezik",
+    "sectionSupport": "PODPRITE APLIKACIJO",
+    "shareApp": "Deli to aplikacijo",
+    "rateApp": "Oceni to aplikacijo",
+    "sectionAbout": "O APLIKACIJI",
+    "version": "Različica",
+    "remindersUpdatedTitle": "Opomniki posodobljeni",
+    "remindersScheduledOne": "Načrtovan {{count}} jutranji opomnik za prihajajoče spomine.",
+    "remindersScheduledOther": "Načrtovanih {{count}} jutranjih opomnikov za prihajajoče spomine.",
+    "remindersNone": "V naslednjih 30 dneh ni bilo najdenih prihajajočih spominov.",
+    "remindersErrorTitle": "Opomniki",
+    "remindersError": "Opomnikov ni bilo mogoče posodobiti. Preverite dostop do fotografij in obvestil."
+  },
+  "notification": {
+    "title": "Na ta dan 📸",
+    "bodyOne": "S tega dne imate iz prejšnjih let 1 spomin.",
+    "bodyOther": "S tega dne imate iz prejšnjih let {{count}} spominov."
+  }
+}

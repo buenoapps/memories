@@ -15,14 +15,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '@/components/icon';
 import { IconButton } from '@/components/icon-button';
+import { LanguagePickerModal } from '@/components/language-picker-modal';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { TimePickerModal } from '@/components/time-picker-modal';
 import { APP_REVIEW_URL, APP_SHARE_MESSAGE, APP_SHARE_URL } from '@/constants/app';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
+import { SUPPORTED_LANGUAGES, SYSTEM_LANGUAGE } from '@/i18n';
 import { useTheme } from '@/hooks/use-theme';
 import { refreshMemoryNotifications } from '@/hooks/use-notifications';
-import { useSettings } from '@/hooks/use-settings';
+import { useSettings, useTranslation } from '@/hooks/use-settings';
 import { formatHour, type Settings } from '@/utils/settings';
 
 const version = Application.nativeApplicationVersion ?? '1.0.0';
@@ -82,17 +84,20 @@ function SettingsRow({
 /** Which time setting the picker is currently editing. */
 type TimeField = 'dayStartHour' | 'dayEndHour' | 'notificationHour';
 
-const TIME_PICKER_TITLES: Record<TimeField, string> = {
-  dayStartHour: 'Day starts at',
-  dayEndHour: 'Day ends at',
-  notificationHour: 'Reminder time',
+/** Translation key for each time field's picker title. */
+const TIME_PICKER_TITLE_KEYS: Record<TimeField, string> = {
+  dayStartHour: 'settings.dayStartsAt',
+  dayEndHour: 'settings.dayEndsAt',
+  notificationHour: 'settings.reminderTime',
 };
 
 export default function SettingsScreen() {
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
   const [refreshing, setRefreshing] = useState(false);
   const { settings, update } = useSettings();
   const [activeField, setActiveField] = useState<TimeField | null>(null);
+  const [languagePickerOpen, setLanguagePickerOpen] = useState(false);
   // Mirror the latest settings synchronously so closing the picker can reschedule
   // with the new values even on Android, where change + close fire in one event
   // before the async persist has flushed.
@@ -137,24 +142,33 @@ export default function SettingsScreen() {
     try {
       const count = await refreshMemoryNotifications();
       Alert.alert(
-        'Reminders updated',
+        t('settings.remindersUpdatedTitle'),
         count > 0
-          ? `Scheduled ${count} morning reminder${count === 1 ? '' : 's'} for upcoming memories.`
-          : 'No upcoming memories found in the next 30 days.',
+          ? t(count === 1 ? 'settings.remindersScheduledOne' : 'settings.remindersScheduledOther', {
+              count,
+            })
+          : t('settings.remindersNone'),
       );
     } catch {
-      Alert.alert('Reminders', 'Could not update reminders. Check photo and notification access.');
+      Alert.alert(t('settings.remindersErrorTitle'), t('settings.remindersError'));
     } finally {
       setRefreshing(false);
     }
   };
 
+  // Label shown next to the Language row: the current choice in its own name.
+  const currentLanguageLabel =
+    settings.language === SYSTEM_LANGUAGE
+      ? t('settings.systemDefault')
+      : (SUPPORTED_LANGUAGES.find((language) => language.code === settings.language)?.label ??
+        t('settings.systemDefault'));
+
   return (
     <ThemedView style={styles.flex}>
       <View style={[styles.header, { paddingTop: insets.top + Spacing.two }]}>
-        <IconButton name="back" accessibilityLabel="Back" onPress={() => router.back()} />
+        <IconButton name="back" accessibilityLabel={t('common.back')} onPress={() => router.back()} />
         <ThemedText type="subtitle" style={styles.headerTitle}>
-          Settings
+          {t('settings.title')}
         </ThemedText>
         <View style={styles.headerSpacer} />
       </View>
@@ -166,54 +180,73 @@ export default function SettingsScreen() {
         ]}>
         <View style={styles.content}>
           <ThemedText type="small" themeColor="textSecondary" style={styles.sectionTitle}>
-            MEMORY DAY
+            {t('settings.sectionMemoryDay')}
           </ThemedText>
           <SettingsRow
             icon="clock"
-            label="Day starts at"
+            label={t('settings.dayStartsAt')}
             detail={formatHour(settings.dayStartHour)}
             onPress={() => setActiveField('dayStartHour')}
           />
           <SettingsRow
             icon="clock"
-            label="Day ends at"
+            label={t('settings.dayEndsAt')}
             detail={formatHour(settings.dayEndHour)}
             onPress={() => setActiveField('dayEndHour')}
           />
           <ThemedText type="small" themeColor="textSecondary" style={styles.sectionHint}>
-            Photos are grouped from the start time on a day until the end time the next morning, so
-            late-night shots still show with the right day.
+            {t('settings.memoryDayHint')}
           </ThemedText>
 
           <ThemedText type="small" themeColor="textSecondary" style={styles.sectionTitle}>
-            REMINDERS
+            {t('settings.sectionReminders')}
           </ThemedText>
           <SettingsRow
             icon="bell"
-            label="Reminder time"
+            label={t('settings.reminderTime')}
             detail={formatHour(settings.notificationHour)}
             onPress={() => setActiveField('notificationHour')}
           />
           <SettingsRow
             icon="calendar"
-            label="Refresh daily reminders"
+            label={t('settings.refreshReminders')}
             onPress={refreshNotifications}
             loading={refreshing}
             showChevron={false}
           />
 
           <ThemedText type="small" themeColor="textSecondary" style={styles.sectionTitle}>
-            SUPPORT THE APP
+            {t('settings.sectionLanguage')}
           </ThemedText>
-          <SettingsRow icon="share" label="Share this app" onPress={shareApp} showChevron={false} />
-          <SettingsRow icon="star" label="Rate this app" onPress={rateApp} showChevron={false} />
+          <SettingsRow
+            icon="globe"
+            label={t('settings.language')}
+            detail={currentLanguageLabel}
+            onPress={() => setLanguagePickerOpen(true)}
+          />
 
           <ThemedText type="small" themeColor="textSecondary" style={styles.sectionTitle}>
-            ABOUT
+            {t('settings.sectionSupport')}
+          </ThemedText>
+          <SettingsRow
+            icon="share"
+            label={t('settings.shareApp')}
+            onPress={shareApp}
+            showChevron={false}
+          />
+          <SettingsRow
+            icon="star"
+            label={t('settings.rateApp')}
+            onPress={rateApp}
+            showChevron={false}
+          />
+
+          <ThemedText type="small" themeColor="textSecondary" style={styles.sectionTitle}>
+            {t('settings.sectionAbout')}
           </ThemedText>
           <SettingsRow
             icon="settings"
-            label="Version"
+            label={t('settings.version')}
             detail={build ? `${version} (${build})` : version}
           />
         </View>
@@ -221,10 +254,17 @@ export default function SettingsScreen() {
 
       <TimePickerModal
         visible={activeField !== null}
-        title={activeField ? TIME_PICKER_TITLES[activeField] : ''}
+        title={activeField ? t(TIME_PICKER_TITLE_KEYS[activeField]) : ''}
         hour={activeField ? settings[activeField] : 0}
         onChangeHour={(hour) => activeField && handlePickHour(activeField, hour)}
         onClose={closePicker}
+      />
+
+      <LanguagePickerModal
+        visible={languagePickerOpen}
+        value={settings.language}
+        onSelect={(language) => update({ language })}
+        onClose={() => setLanguagePickerOpen(false)}
       />
     </ThemedView>
   );

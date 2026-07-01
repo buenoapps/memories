@@ -10,6 +10,7 @@ import { IconButton } from '@/components/icon-button';
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
 import { usePlayback } from '@/context/playback';
+import { useTranslation } from '@/hooks/use-settings';
 import { useFreeOrientationWhileMounted } from '@/hooks/use-orientation';
 import {
   clampIndex,
@@ -23,6 +24,7 @@ export default function SlideshowScreen() {
   useFreeOrientationWhileMounted();
   const insets = useSafeAreaInsets();
   const { photos } = usePlayback();
+  const { t } = useTranslation();
 
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
@@ -49,7 +51,7 @@ export default function SlideshowScreen() {
           <IconButton
             name="close"
             color="#fff"
-            accessibilityLabel="Close"
+            accessibilityLabel={t('common.close')}
             onPress={() => router.back()}
           />
         </View>
@@ -77,11 +79,11 @@ export default function SlideshowScreen() {
           <IconButton
             name="close"
             color="#fff"
-            accessibilityLabel="Close"
+            accessibilityLabel={t('common.close')}
             onPress={() => router.back()}
           />
           <ThemedText style={styles.counter}>
-            {index + 1} of {photos.length}
+            {t('slideshow.counter', { index: index + 1, total: photos.length })}
           </ThemedText>
           <View style={styles.headerSpacer} />
         </Animated.View>
@@ -95,12 +97,12 @@ export default function SlideshowScreen() {
           <View style={styles.speedRow}>
             {SLIDESHOW_SPEEDS.map((speed, i) => (
               <Pressable
-                key={speed.label}
+                key={speed.labelKey}
                 accessibilityRole="button"
                 onPress={() => setSpeedIndex(i)}
                 style={[styles.speedChip, i === speedIndex && styles.speedChipActive]}>
                 <ThemedText type="small" style={styles.speedLabel}>
-                  {speed.label}
+                  {t(speed.labelKey)}
                 </ThemedText>
               </Pressable>
             ))}
@@ -111,21 +113,21 @@ export default function SlideshowScreen() {
               name="previous"
               size={28}
               color="#fff"
-              accessibilityLabel="Previous"
+              accessibilityLabel={t('slideshow.previous')}
               onPress={() => setIndex((current) => prevIndex(current, photos.length))}
             />
             <IconButton
               name={playing ? 'pause' : 'play'}
               size={36}
               color="#fff"
-              accessibilityLabel={playing ? 'Pause' : 'Play'}
+              accessibilityLabel={playing ? t('slideshow.pause') : t('slideshow.play')}
               onPress={() => setPlaying((value) => !value)}
             />
             <IconButton
               name="next"
               size={28}
               color="#fff"
-              accessibilityLabel="Next"
+              accessibilityLabel={t('slideshow.next')}
               onPress={() => setIndex((current) => nextIndex(current, photos.length))}
             />
           </View>

@@ -1,7 +1,10 @@
 /**
  * Pure helpers for the "On This Day" memories feature. Kept free of React and
- * native modules so they are easy to unit test.
+ * native modules so they are easy to unit test. User-facing labels are
+ * translated against the active locale via `translate`; date labels use the
+ * active locale's month/weekday names.
  */
+import { getActiveLocale, plural, translate } from '@/i18n';
 
 /** How many years back to look for memories (in addition to the current year). */
 export const YEARS_BACK = 50;
@@ -59,19 +62,19 @@ export function dayRange(
 
 /** Human label for how long ago a year was, e.g. "Today", "1 year ago". */
 export function yearsAgoLabel(yearsAgo: number): string {
-  if (yearsAgo <= 0) return 'Today';
-  if (yearsAgo === 1) return '1 year ago';
-  return `${yearsAgo} years ago`;
+  if (yearsAgo <= 0) return translate('memory.today');
+  if (yearsAgo === 1) return translate('memory.yearAgoOne');
+  return translate('memory.yearsAgoOther', { count: yearsAgo });
 }
 
 /** Formats a count of photos with the correct pluralisation. */
 export function photoCountLabel(count: number): string {
-  return `${count} ${count === 1 ? 'photo' : 'photos'}`;
+  return translate(plural('memory.photo', count), { count });
 }
 
 /** Formats the day-of-year label shown in the header, e.g. "June 15". */
 export function formatDayLabel(date: Date): string {
-  return date.toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+  return date.toLocaleDateString(getActiveLocale(), { month: 'long', day: 'numeric' });
 }
 
 /** True when two dates fall on the same calendar month and day (year ignored). */
@@ -84,7 +87,7 @@ export function isSameMonthDay(a: Date, b: Date): boolean {
  * buttons. Returns "Today" when the date is today's month/day.
  */
 export function formatRelativeDayLabel(date: Date, now: Date = new Date()): string {
-  return isSameMonthDay(date, now) ? 'Today' : formatDayLabel(date);
+  return isSameMonthDay(date, now) ? translate('memory.today') : formatDayLabel(date);
 }
 
 /** Clamps a 0..1 progress value and renders it as a whole-number percentage. */

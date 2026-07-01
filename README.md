@@ -23,6 +23,15 @@ calendar day — for the current year and the previous 50 — grouped year by ye
 - `src/app/index.tsx` — the single "On This Day" screen, with loading
   (+progress), permission, error, and empty states. Navigation is a plain
   `Stack` (no tabs).
+- `src/i18n/` — the translation layer. `locales/*.json` hold one bundle per
+  language (all with the same shape as `en.json`, the source of truth and
+  fallback); `index.ts` is a tiny dependency-free translator with
+  `{{placeholder}}` interpolation. Device language detection uses
+  `expo-localization`. The app ships with all 24 official EU languages plus
+  other widely-spoken European ones (33 in total). The language follows the
+  system by default and can be overridden on the settings screen; the choice is
+  persisted alongside the other settings and read reactively via
+  `useTranslation`.
 
 > Note: photo access requires a real device or simulator — `expo-media-library`
 > has no web implementation, so the web build shows an informational message.

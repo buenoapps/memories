@@ -22,7 +22,8 @@ export type IconName =
   | 'previous'
   | 'video'
   | 'clock'
-  | 'bell';
+  | 'bell'
+  | 'globe';
 
 /** SF Symbol names (iOS) and Unicode fallbacks (Android/web) for each icon. */
 const ICONS: Record<IconName, { sf: SFSymbol; glyph: string }> = {
@@ -43,6 +44,7 @@ const ICONS: Record<IconName, { sf: SFSymbol; glyph: string }> = {
   video: { sf: 'video.fill', glyph: '🎬' },
   clock: { sf: 'clock', glyph: '🕐' },
   bell: { sf: 'bell', glyph: '🔔' },
+  globe: { sf: 'globe', glyph: '🌐' },
 };
 
 export type IconProps = {

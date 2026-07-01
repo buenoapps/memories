@@ -5,16 +5,17 @@
 
 /** A selectable playback speed for the slideshow. */
 export type SlideshowSpeed = {
-  label: string;
+  /** Translation key for the speed's label, resolved by the UI. */
+  labelKey: string;
   /** Milliseconds each slide stays on screen. */
   intervalMs: number;
 };
 
 /** The speeds offered in the slideshow controls, slowest to fastest. */
 export const SLIDESHOW_SPEEDS: SlideshowSpeed[] = [
-  { label: 'Slow', intervalMs: 6000 },
-  { label: 'Normal', intervalMs: 4000 },
-  { label: 'Fast', intervalMs: 2000 },
+  { labelKey: 'slideshow.speedSlow', intervalMs: 6000 },
+  { labelKey: 'slideshow.speedNormal', intervalMs: 4000 },
+  { labelKey: 'slideshow.speedFast', intervalMs: 2000 },
 ];
 
 /** Index of the default ("Normal") speed. */

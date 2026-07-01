@@ -12,6 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { ThemedText } from '@/components/themed-text';
+import { useTranslation } from '@/hooks/use-settings';
 import { resolveShareUri } from '@/utils/share';
 
 const DISMISS_DISTANCE = 140;
@@ -39,6 +40,7 @@ type VideoPageProps = {
  * automatically while its page is on screen and pauses when scrolled away.
  */
 export function VideoPage({ id, active, width, height, dragY, onClose }: VideoPageProps) {
+  const { t } = useTranslation();
   const [load, setLoad] = useState<LoadState>({ status: 'loading' });
 
   useEffect(() => {
@@ -109,7 +111,7 @@ export function VideoPage({ id, active, width, height, dragY, onClose }: VideoPa
       <Animated.View style={[styles.page, { width, height }, pageStyle]}>
         {load.status === 'loading' && <ActivityIndicator color="#fff" />}
         {load.status === 'error' && (
-          <ThemedText style={styles.error}>This video can’t be played.</ThemedText>
+          <ThemedText style={styles.error}>{t('video.cannotPlay')}</ThemedText>
         )}
         {load.status === 'ready' && (
           <VideoView style={styles.video} player={player} contentFit="contain" nativeControls />

@@ -5,6 +5,7 @@ import { Icon, type IconName } from '@/components/icon';
 import { IconButton } from '@/components/icon-button';
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
+import { useTranslation } from '@/hooks/use-settings';
 import { useTheme } from '@/hooks/use-theme';
 
 export type Action = {
@@ -32,10 +33,11 @@ export type ActionMenuProps = {
 export function ActionMenu({
   actions,
   triggerIcon = 'more',
-  accessibilityLabel = 'More actions',
+  accessibilityLabel,
   tintColor,
 }: ActionMenuProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   return (
@@ -43,7 +45,7 @@ export function ActionMenu({
       <IconButton
         name={triggerIcon}
         color={tintColor}
-        accessibilityLabel={accessibilityLabel}
+        accessibilityLabel={accessibilityLabel ?? t('actions.more')}
         onPress={() => setOpen(true)}
       />
 
