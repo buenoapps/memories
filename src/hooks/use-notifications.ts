@@ -3,9 +3,16 @@ import * as Notifications from 'expo-notifications';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
+import { resolveLocale, setActiveLocale } from '@/i18n';
+import { getDeviceLanguageCodes } from '@/i18n/device';
 import { loadSettings } from '@/hooks/use-settings';
 import { dayRange } from '@/utils/memories';
-import { buildLookaheadDays, LOOKAHEAD_DAYS, notificationBody } from '@/utils/notifications-schedule';
+import {
+  buildLookaheadDays,
+  LOOKAHEAD_DAYS,
+  notificationBody,
+  notificationTitle,
+} from '@/utils/notifications-schedule';
 import { type Settings } from '@/utils/settings';
 
 /** How many years back the morning scan looks when counting a day's memories. */
@@ -59,7 +66,12 @@ export async function refreshMemoryNotifications(
 ): Promise<number> {
   // The scheduler runs outside React (at startup and from the settings screen),
   // so it reads the persisted settings directly unless they are passed in.
-  const { dayStartHour, dayEndHour, notificationHour } = settings ?? (await loadSettings());
+  const resolved = settings ?? (await loadSettings());
+  const { dayStartHour, dayEndHour, notificationHour } = resolved;
+
+  // Notifications fire outside the React tree, so align the translator with the
+  // user's chosen language before building the notification copy.
+  setActiveLocale(resolveLocale(resolved.language, getDeviceLanguageCodes()));
 
   await Notifications.cancelAllScheduledNotificationsAsync();
 
@@ -76,7 +88,7 @@ export async function refreshMemoryNotifications(
     );
     if (count > 0) {
       await Notifications.scheduleNotificationAsync({
-        content: { title: 'On This Day 📸', body: notificationBody(count) },
+        content: { title: notificationTitle(), body: notificationBody(count) },
         trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: morning },
       });
       scheduled += 1;

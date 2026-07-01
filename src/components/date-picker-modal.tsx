@@ -3,6 +3,7 @@ import { Modal, Platform, Pressable, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
+import { useTranslation } from '@/hooks/use-settings';
 import { useTheme } from '@/hooks/use-theme';
 
 export type DatePickerModalProps = {
@@ -19,6 +20,7 @@ export type DatePickerModalProps = {
  */
 export function DatePickerModal({ visible, value, onChange, onClose }: DatePickerModalProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const handleNativeChange = (event: DateTimePickerEvent, date?: Date) => {
     // Android fires once and dismisses itself; mirror that for the caller.
@@ -51,11 +53,11 @@ export function DatePickerModal({ visible, value, onChange, onClose }: DatePicke
           onPress={(event) => event.stopPropagation()}>
           <View style={styles.header}>
             <ThemedText type="subtitle" style={styles.title}>
-              Pick a day
+              {t('datePicker.title')}
             </ThemedText>
             <Pressable accessibilityRole="button" onPress={onClose} hitSlop={Spacing.two}>
               <ThemedText type="smallBold" themeColor="textSecondary">
-                Done
+                {t('common.done')}
               </ThemedText>
             </Pressable>
           </View>

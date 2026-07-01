@@ -31,11 +31,12 @@ describe('sanitizeSettings', () => {
     expect(sanitizeSettings({})).toEqual(DEFAULT_SETTINGS);
   });
 
-  it('defaults the day window to 4am → 4am and the reminder to 9am', () => {
+  it('defaults the day window to 4am → 4am, the reminder to 9am, and the language to system', () => {
     expect(DEFAULT_SETTINGS).toEqual({
       dayStartHour: 4,
       dayEndHour: 4,
       notificationHour: 9,
+      language: 'system',
     });
   });
 
@@ -44,7 +45,15 @@ describe('sanitizeSettings', () => {
       dayStartHour: 0,
       dayEndHour: 4,
       notificationHour: 23,
+      language: 'system',
     });
+  });
+
+  it('keeps a supported language and rejects unknown ones', () => {
+    expect(sanitizeSettings({ language: 'de' }).language).toBe('de');
+    expect(sanitizeSettings({ language: 'system' }).language).toBe('system');
+    expect(sanitizeSettings({ language: 'xx' }).language).toBe('system');
+    expect(sanitizeSettings({ language: 42 as unknown as string }).language).toBe('system');
   });
 });
 

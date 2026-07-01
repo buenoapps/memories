@@ -1,0 +1,96 @@
+{
+  "common": {
+    "back": "Späť",
+    "cancel": "Zrušiť",
+    "done": "Hotovo",
+    "close": "Zavrieť",
+    "share": "Zdieľať",
+    "tryAgain": "Skúsiť znova"
+  },
+  "home": {
+    "onThisDay": "V tento deň",
+    "emptyHint": "Žiadne fotky z {{day}} v predchádzajúcich rokoch. Vyberte iný deň, na ktorý si zaspomínate."
+  },
+  "year": {
+    "emptyHint": "Žiadne fotky z {{day}} {{year}}."
+  },
+  "status": {
+    "loadingTitle": "Spomíname…",
+    "loadingBody": "Hľadáme vaše fotky z tohto dňa.",
+    "unsupportedTitle": "Otvorte v telefóne",
+    "unsupportedBody": "Memories číta fotky z knižnice vášho zariadenia, preto beží na iOS a Androide.",
+    "deniedTitle": "Vyžaduje sa prístup k fotkám",
+    "deniedBodyCanAsk": "Povoľte prístup k svojim fotkám, aby vám Memories mohlo ukázať, čo ste v tento deň zachytili.",
+    "deniedBodySettings": "V nastaveniach zariadenia povoľte aplikácii Memories prístup k fotkám, aby ste videli svoje fotky z tohto dňa.",
+    "errorTitle": "Niečo sa pokazilo",
+    "emptyTitle": "Zatiaľ žiadne spomienky",
+    "loadError": "Vaše fotky sa nepodarilo načítať.",
+    "accessError": "K vašim fotkám sa nepodarilo získať prístup.",
+    "requestError": "Nepodarilo sa požiadať o prístup k fotkám."
+  },
+  "selection": {
+    "select": "Vybrať",
+    "selectAll": "Vybrať všetko",
+    "clear": "Vymazať",
+    "selectItems": "Vybrať položky",
+    "selectedCount": "Vybraté: {{count}}"
+  },
+  "actions": {
+    "startSlideshow": "Spustiť prezentáciu",
+    "settings": "Nastavenia",
+    "more": "Ďalšie akcie"
+  },
+  "memory": {
+    "today": "Dnes",
+    "yearAgoOne": "pred 1 rokom",
+    "yearsAgoOther": "pred {{count}} rokmi",
+    "photoOne": "{{count}} fotka",
+    "photoOther": "{{count}} fotiek"
+  },
+  "datePicker": {
+    "title": "Vyberte deň"
+  },
+  "slideshow": {
+    "speedSlow": "Pomaly",
+    "speedNormal": "Normálne",
+    "speedFast": "Rýchlo",
+    "counter": "{{index}} z {{total}}",
+    "previous": "Predchádzajúce",
+    "play": "Prehrať",
+    "pause": "Pozastaviť",
+    "next": "Ďalšie"
+  },
+  "video": {
+    "cannotPlay": "Toto video nie je možné prehrať."
+  },
+  "settings": {
+    "title": "Nastavenia",
+    "sectionMemoryDay": "DEŇ SPOMIENOK",
+    "dayStartsAt": "Deň sa začína o",
+    "dayEndsAt": "Deň sa končí o",
+    "memoryDayHint": "Fotky sa zoskupujú od času začiatku dňa až do času konca nasledujúceho rána, takže nočné zábery sa zobrazia pri správnom dni.",
+    "sectionReminders": "PRIPOMENUTIA",
+    "reminderTime": "Čas pripomenutia",
+    "refreshReminders": "Obnoviť denné pripomenutia",
+    "sectionLanguage": "JAZYK",
+    "language": "Jazyk",
+    "systemDefault": "Predvolené systémom",
+    "chooseLanguage": "Vyberte jazyk",
+    "sectionSupport": "PODPORTE APLIKÁCIU",
+    "shareApp": "Zdieľať túto aplikáciu",
+    "rateApp": "Ohodnotiť túto aplikáciu",
+    "sectionAbout": "O APLIKÁCII",
+    "version": "Verzia",
+    "remindersUpdatedTitle": "Pripomenutia aktualizované",
+    "remindersScheduledOne": "Naplánované {{count}} ranné pripomenutie nadchádzajúcich spomienok.",
+    "remindersScheduledOther": "Naplánovaných {{count}} ranných pripomenutí nadchádzajúcich spomienok.",
+    "remindersNone": "V najbližších 30 dňoch sa nenašli žiadne nadchádzajúce spomienky.",
+    "remindersErrorTitle": "Pripomenutia",
+    "remindersError": "Pripomenutia sa nepodarilo aktualizovať. Skontrolujte prístup k fotkám a upozorneniam."
+  },
+  "notification": {
+    "title": "V tento deň 📸",
+    "bodyOne": "Z tohto dňa máte v minulých rokoch 1 spomienku.",
+    "bodyOther": "Z tohto dňa máte v minulých rokoch {{count}} spomienok."
+  }
+}

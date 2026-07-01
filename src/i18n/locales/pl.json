@@ -1,0 +1,96 @@
+{
+  "common": {
+    "back": "Wstecz",
+    "cancel": "Anuluj",
+    "done": "Gotowe",
+    "close": "Zamknij",
+    "share": "Udostępnij",
+    "tryAgain": "Spróbuj ponownie"
+  },
+  "home": {
+    "onThisDay": "Tego dnia",
+    "emptyHint": "Brak zdjęć z dnia {{day}} w poprzednich latach. Wybierz inny dzień, aby powspominać."
+  },
+  "year": {
+    "emptyHint": "Brak zdjęć z {{day}} {{year}}."
+  },
+  "status": {
+    "loadingTitle": "Wracamy do wspomnień…",
+    "loadingBody": "Wyszukujemy Twoje zdjęcia z tego dnia.",
+    "unsupportedTitle": "Otwórz na telefonie",
+    "unsupportedBody": "Memories odczytuje zdjęcia z biblioteki na Twoim urządzeniu, dlatego działa na iOS i Androidzie.",
+    "deniedTitle": "Wymagany dostęp do zdjęć",
+    "deniedBodyCanAsk": "Zezwól na dostęp do zdjęć, aby Memories mogło pokazać, co uchwyciłeś tego dnia.",
+    "deniedBodySettings": "Włącz dostęp do zdjęć dla Memories w ustawieniach urządzenia, aby zobaczyć swoje zdjęcia z tego dnia.",
+    "errorTitle": "Coś poszło nie tak",
+    "emptyTitle": "Brak wspomnień",
+    "loadError": "Nie udało się wczytać Twoich zdjęć.",
+    "accessError": "Nie udało się uzyskać dostępu do Twoich zdjęć.",
+    "requestError": "Nie udało się poprosić o dostęp do zdjęć."
+  },
+  "selection": {
+    "select": "Zaznacz",
+    "selectAll": "Zaznacz wszystko",
+    "clear": "Wyczyść",
+    "selectItems": "Zaznacz elementy",
+    "selectedCount": "Zaznaczono: {{count}}"
+  },
+  "actions": {
+    "startSlideshow": "Rozpocznij pokaz slajdów",
+    "settings": "Ustawienia",
+    "more": "Więcej akcji"
+  },
+  "memory": {
+    "today": "Dzisiaj",
+    "yearAgoOne": "1 rok temu",
+    "yearsAgoOther": "{{count}} lat temu",
+    "photoOne": "{{count}} zdjęcie",
+    "photoOther": "{{count}} zdjęć"
+  },
+  "datePicker": {
+    "title": "Wybierz dzień"
+  },
+  "slideshow": {
+    "speedSlow": "Wolno",
+    "speedNormal": "Normalnie",
+    "speedFast": "Szybko",
+    "counter": "{{index}} z {{total}}",
+    "previous": "Poprzednie",
+    "play": "Odtwórz",
+    "pause": "Wstrzymaj",
+    "next": "Następne"
+  },
+  "video": {
+    "cannotPlay": "Tego filmu nie można odtworzyć."
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "sectionMemoryDay": "DZIEŃ WSPOMNIEŃ",
+    "dayStartsAt": "Dzień zaczyna się o",
+    "dayEndsAt": "Dzień kończy się o",
+    "memoryDayHint": "Zdjęcia są grupowane od godziny rozpoczęcia dnia do godziny zakończenia następnego ranka, dzięki czemu nocne ujęcia są przypisane do właściwego dnia.",
+    "sectionReminders": "PRZYPOMNIENIA",
+    "reminderTime": "Godzina przypomnienia",
+    "refreshReminders": "Odśwież codzienne przypomnienia",
+    "sectionLanguage": "JĘZYK",
+    "language": "Język",
+    "systemDefault": "Domyślny systemu",
+    "chooseLanguage": "Wybierz język",
+    "sectionSupport": "WSPARCIE APLIKACJI",
+    "shareApp": "Udostępnij tę aplikację",
+    "rateApp": "Oceń tę aplikację",
+    "sectionAbout": "O APLIKACJI",
+    "version": "Wersja",
+    "remindersUpdatedTitle": "Zaktualizowano przypomnienia",
+    "remindersScheduledOne": "Zaplanowano {{count}} poranne przypomnienie o nadchodzących wspomnieniach.",
+    "remindersScheduledOther": "Zaplanowano {{count}} porannych przypomnień o nadchodzących wspomnieniach.",
+    "remindersNone": "Nie znaleziono nadchodzących wspomnień w ciągu najbliższych 30 dni.",
+    "remindersErrorTitle": "Przypomnienia",
+    "remindersError": "Nie udało się zaktualizować przypomnień. Sprawdź dostęp do zdjęć i powiadomień."
+  },
+  "notification": {
+    "title": "Tego dnia 📸",
+    "bodyOne": "Masz 1 wspomnienie z tego dnia w poprzednich latach.",
+    "bodyOther": "Masz {{count}} wspomnień z tego dnia w poprzednich latach."
+  }
+}

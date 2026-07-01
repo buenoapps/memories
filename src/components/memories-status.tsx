@@ -5,6 +5,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Spacing } from '@/constants/theme';
 import type { MemoriesState } from '@/hooks/use-memories';
+import { useTranslation } from '@/hooks/use-settings';
 import { useTheme } from '@/hooks/use-theme';
 import { formatPercent } from '@/utils/memories';
 
@@ -32,6 +33,7 @@ function CenteredMessage({
 
 function RetryButton({ onPress }: { onPress: () => void }) {
   const theme = useTheme();
+  const { t } = useTranslation();
   return (
     <Pressable
       accessibilityRole="button"
@@ -41,7 +43,7 @@ function RetryButton({ onPress }: { onPress: () => void }) {
         { backgroundColor: theme.backgroundElement },
         pressed && styles.pressed,
       ]}>
-      <ThemedText type="smallBold">Try again</ThemedText>
+      <ThemedText type="smallBold">{t('common.tryAgain')}</ThemedText>
     </Pressable>
   );
 }
@@ -58,9 +60,11 @@ export function MemoriesStatus({
   state: MemoriesState;
   emptyBody: string;
 }) {
+  const { t } = useTranslation();
+
   if (state.status === 'loading') {
     return (
-      <CenteredMessage title="Looking back…" body="Finding your photos from this day.">
+      <CenteredMessage title={t('status.loadingTitle')} body={t('status.loadingBody')}>
         <ThemedView style={styles.progressWrapper}>
           <ProgressBar progress={state.progress} />
           <ThemedText type="small" themeColor="textSecondary">
@@ -73,22 +77,15 @@ export function MemoriesStatus({
 
   if (state.status === 'unsupported') {
     return (
-      <CenteredMessage
-        title="Open on your phone"
-        body="Memories reads photos from your device library, so it runs on iOS and Android."
-      />
+      <CenteredMessage title={t('status.unsupportedTitle')} body={t('status.unsupportedBody')} />
     );
   }
 
   if (state.status === 'denied') {
     return (
       <CenteredMessage
-        title="Photo access needed"
-        body={
-          state.canAskAgain
-            ? 'Allow access to your photos so Memories can show what you captured on this day.'
-            : 'Enable photo access for Memories in your device settings to see your photos from this day.'
-        }>
+        title={t('status.deniedTitle')}
+        body={t(state.canAskAgain ? 'status.deniedBodyCanAsk' : 'status.deniedBodySettings')}>
         {state.canAskAgain && <RetryButton onPress={state.requestPermission} />}
       </CenteredMessage>
     );
@@ -96,14 +93,14 @@ export function MemoriesStatus({
 
   if (state.status === 'error') {
     return (
-      <CenteredMessage title="Something went wrong" body={state.message}>
+      <CenteredMessage title={t('status.errorTitle')} body={state.message}>
         <RetryButton onPress={state.retry} />
       </CenteredMessage>
     );
   }
 
   if (state.status === 'ready' && state.groups.length === 0) {
-    return <CenteredMessage title="No memories yet" body={emptyBody} />;
+    return <CenteredMessage title={t('status.emptyTitle')} body={emptyBody} />;
   }
 
   return null;

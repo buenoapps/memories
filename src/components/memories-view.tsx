@@ -12,6 +12,7 @@ import { ThemedView } from '@/components/themed-view';
 import { MaxContentWidth, Spacing } from '@/constants/theme';
 import { usePlayback } from '@/context/playback';
 import { useFlatPhotos, type MemoryGroup, type MemoryPhoto } from '@/hooks/use-memories';
+import { useTranslation } from '@/hooks/use-settings';
 import { useTheme } from '@/hooks/use-theme';
 import { shareAssets } from '@/utils/share';
 import { isAllSelected, selectionTitle, toggleId, toggleSelectAll } from '@/utils/selection';
@@ -50,6 +51,7 @@ export function MemoriesView({
 }: MemoriesViewProps) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
+  const { t, locale } = useTranslation();
   const { openViewer, openSlideshow } = usePlayback();
   const flatPhotos = useFlatPhotos(groups);
 
@@ -107,7 +109,7 @@ export function MemoriesView({
             <View style={styles.actionBar}>
               <Pressable accessibilityRole="button" onPress={exitSelection} hitSlop={Spacing.two}>
                 <ThemedText type="smallBold" themeColor="textSecondary">
-                  Cancel
+                  {t('common.cancel')}
                 </ThemedText>
               </Pressable>
               <ThemedText type="smallBold">{selectionTitle(selectedIds.length)}</ThemedText>
@@ -116,7 +118,7 @@ export function MemoriesView({
                 onPress={() => setSelectedIds((ids) => toggleSelectAll(ids, allIds))}
                 hitSlop={Spacing.two}>
                 <ThemedText type="smallBold" themeColor="textSecondary">
-                  {isAllSelected(selectedIds, allIds) ? 'Clear' : 'Select All'}
+                  {isAllSelected(selectedIds, allIds) ? t('selection.clear') : t('selection.selectAll')}
                 </ThemedText>
               </Pressable>
             </View>
@@ -124,14 +126,14 @@ export function MemoriesView({
             <View style={styles.actionBar}>
               <View style={styles.actionIcons}>
                 {onBack && (
-                  <IconButton name="back" accessibilityLabel="Back" onPress={onBack} />
+                  <IconButton name="back" accessibilityLabel={t('common.back')} onPress={onBack} />
                 )}
                 <Pressable
                   accessibilityRole="button"
                   onPress={() => setSelectionMode(true)}
                   hitSlop={Spacing.two}>
                   <ThemedText type="smallBold" themeColor="textSecondary">
-                    Select
+                    {t('selection.select')}
                   </ThemedText>
                 </Pressable>
               </View>
@@ -139,14 +141,14 @@ export function MemoriesView({
                 {flatPhotos.length > 0 && (
                   <IconButton
                     name="slideshow"
-                    accessibilityLabel="Start slideshow"
+                    accessibilityLabel={t('actions.startSlideshow')}
                     onPress={() => openSlideshow(flatPhotos)}
                   />
                 )}
                 {showSettings && (
                   <IconButton
                     name="settings"
-                    accessibilityLabel="Settings"
+                    accessibilityLabel={t('actions.settings')}
                     onPress={() => router.push('/settings')}
                   />
                 )}
@@ -162,7 +164,7 @@ export function MemoriesView({
                   <Icon name="calendar" size={24} color={theme.textSecondary} />
                 </View>
                 <ThemedText type="link" themeColor="textSecondary">
-                  {date.toLocaleDateString(undefined, {
+                  {date.toLocaleDateString(locale, {
                     weekday: 'long',
                     month: 'long',
                     day: 'numeric',
@@ -215,7 +217,7 @@ export function MemoriesView({
             <ThemedText
               type="smallBold"
               themeColor={selectedIds.length === 0 ? 'textSecondary' : 'text'}>
-              Share
+              {t('common.share')}
             </ThemedText>
           </Pressable>
         </View>

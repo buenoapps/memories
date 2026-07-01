@@ -1,0 +1,96 @@
+{
+  "common": {
+    "back": "Back",
+    "cancel": "Cancel",
+    "done": "Done",
+    "close": "Close",
+    "share": "Share",
+    "tryAgain": "Try again"
+  },
+  "home": {
+    "onThisDay": "On This Day",
+    "emptyHint": "No photos from {{day}} in earlier years. Pick another day to look back on."
+  },
+  "year": {
+    "emptyHint": "No photos from {{day}}, {{year}}."
+  },
+  "status": {
+    "loadingTitle": "Looking back…",
+    "loadingBody": "Finding your photos from this day.",
+    "unsupportedTitle": "Open on your phone",
+    "unsupportedBody": "Memories reads photos from your device library, so it runs on iOS and Android.",
+    "deniedTitle": "Photo access needed",
+    "deniedBodyCanAsk": "Allow access to your photos so Memories can show what you captured on this day.",
+    "deniedBodySettings": "Enable photo access for Memories in your device settings to see your photos from this day.",
+    "errorTitle": "Something went wrong",
+    "emptyTitle": "No memories yet",
+    "loadError": "Could not load your photos.",
+    "accessError": "Could not access your photos.",
+    "requestError": "Could not request photo access."
+  },
+  "selection": {
+    "select": "Select",
+    "selectAll": "Select All",
+    "clear": "Clear",
+    "selectItems": "Select Items",
+    "selectedCount": "{{count}} Selected"
+  },
+  "actions": {
+    "startSlideshow": "Start slideshow",
+    "settings": "Settings",
+    "more": "More actions"
+  },
+  "memory": {
+    "today": "Today",
+    "yearAgoOne": "1 year ago",
+    "yearsAgoOther": "{{count}} years ago",
+    "photoOne": "{{count}} photo",
+    "photoOther": "{{count}} photos"
+  },
+  "datePicker": {
+    "title": "Pick a day"
+  },
+  "slideshow": {
+    "speedSlow": "Slow",
+    "speedNormal": "Normal",
+    "speedFast": "Fast",
+    "counter": "{{index}} of {{total}}",
+    "previous": "Previous",
+    "play": "Play",
+    "pause": "Pause",
+    "next": "Next"
+  },
+  "video": {
+    "cannotPlay": "This video can’t be played."
+  },
+  "settings": {
+    "title": "Settings",
+    "sectionMemoryDay": "MEMORY DAY",
+    "dayStartsAt": "Day starts at",
+    "dayEndsAt": "Day ends at",
+    "memoryDayHint": "Photos are grouped from the start time on a day until the end time the next morning, so late-night shots still show with the right day.",
+    "sectionReminders": "REMINDERS",
+    "reminderTime": "Reminder time",
+    "refreshReminders": "Refresh daily reminders",
+    "sectionLanguage": "LANGUAGE",
+    "language": "Language",
+    "systemDefault": "System default",
+    "chooseLanguage": "Choose language",
+    "sectionSupport": "SUPPORT THE APP",
+    "shareApp": "Share this app",
+    "rateApp": "Rate this app",
+    "sectionAbout": "ABOUT",
+    "version": "Version",
+    "remindersUpdatedTitle": "Reminders updated",
+    "remindersScheduledOne": "Scheduled {{count}} morning reminder for upcoming memories.",
+    "remindersScheduledOther": "Scheduled {{count}} morning reminders for upcoming memories.",
+    "remindersNone": "No upcoming memories found in the next 30 days.",
+    "remindersErrorTitle": "Reminders",
+    "remindersError": "Could not update reminders. Check photo and notification access."
+  },
+  "notification": {
+    "title": "On This Day 📸",
+    "bodyOne": "You have 1 memory from this day in past years.",
+    "bodyOther": "You have {{count}} memories from this day in past years."
+  }
+}

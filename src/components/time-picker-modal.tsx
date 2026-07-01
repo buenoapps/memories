@@ -4,6 +4,7 @@ import { Modal, Platform, Pressable, StyleSheet, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { Spacing } from '@/constants/theme';
+import { useTranslation } from '@/hooks/use-settings';
 import { useTheme } from '@/hooks/use-theme';
 
 export type TimePickerModalProps = {
@@ -31,6 +32,7 @@ export function TimePickerModal({
   onClose,
 }: TimePickerModalProps) {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   // Represent the hour as a Date for the native picker; the calendar day is
   // irrelevant because only the hour is read back out.
@@ -67,7 +69,7 @@ export function TimePickerModal({
             </ThemedText>
             <Pressable accessibilityRole="button" onPress={onClose} hitSlop={Spacing.two}>
               <ThemedText type="smallBold" themeColor="textSecondary">
-                Done
+                {t('common.done')}
               </ThemedText>
             </Pressable>
           </View>

@@ -1,0 +1,96 @@
+{
+  "common": {
+    "back": "Zpět",
+    "cancel": "Zrušit",
+    "done": "Hotovo",
+    "close": "Zavřít",
+    "share": "Sdílet",
+    "tryAgain": "Zkusit znovu"
+  },
+  "home": {
+    "onThisDay": "V tento den",
+    "emptyHint": "Žádné fotky z {{day}} v předchozích letech. Vyberte jiný den, na který zavzpomínáte."
+  },
+  "year": {
+    "emptyHint": "Žádné fotky z {{day}} {{year}}."
+  },
+  "status": {
+    "loadingTitle": "Vzpomínáme…",
+    "loadingBody": "Hledáme vaše fotky z tohoto dne.",
+    "unsupportedTitle": "Otevřete v telefonu",
+    "unsupportedBody": "Memories čte fotky z knihovny vašeho zařízení, proto běží na iOS a Androidu.",
+    "deniedTitle": "Je nutný přístup k fotkám",
+    "deniedBodyCanAsk": "Povolte přístup ke svým fotkám, aby vám Memories mohlo ukázat, co jste v tento den zachytili.",
+    "deniedBodySettings": "V nastavení zařízení povolte aplikaci Memories přístup k fotkám, abyste viděli své fotky z tohoto dne.",
+    "errorTitle": "Něco se pokazilo",
+    "emptyTitle": "Zatím žádné vzpomínky",
+    "loadError": "Vaše fotky se nepodařilo načíst.",
+    "accessError": "K vašim fotkám se nepodařilo získat přístup.",
+    "requestError": "Nepodařilo se požádat o přístup k fotkám."
+  },
+  "selection": {
+    "select": "Vybrat",
+    "selectAll": "Vybrat vše",
+    "clear": "Vymazat",
+    "selectItems": "Vybrat položky",
+    "selectedCount": "Vybráno: {{count}}"
+  },
+  "actions": {
+    "startSlideshow": "Spustit prezentaci",
+    "settings": "Nastavení",
+    "more": "Další akce"
+  },
+  "memory": {
+    "today": "Dnes",
+    "yearAgoOne": "před 1 rokem",
+    "yearsAgoOther": "před {{count}} lety",
+    "photoOne": "{{count}} fotka",
+    "photoOther": "{{count}} fotek"
+  },
+  "datePicker": {
+    "title": "Vyberte den"
+  },
+  "slideshow": {
+    "speedSlow": "Pomalu",
+    "speedNormal": "Normálně",
+    "speedFast": "Rychle",
+    "counter": "{{index}} z {{total}}",
+    "previous": "Předchozí",
+    "play": "Přehrát",
+    "pause": "Pozastavit",
+    "next": "Další"
+  },
+  "video": {
+    "cannotPlay": "Toto video nelze přehrát."
+  },
+  "settings": {
+    "title": "Nastavení",
+    "sectionMemoryDay": "DEN VZPOMÍNEK",
+    "dayStartsAt": "Den začíná v",
+    "dayEndsAt": "Den končí v",
+    "memoryDayHint": "Fotky se seskupují od času začátku dne až do času konce následujícího rána, takže noční snímky se zobrazí u správného dne.",
+    "sectionReminders": "PŘIPOMENUTÍ",
+    "reminderTime": "Čas připomenutí",
+    "refreshReminders": "Obnovit denní připomenutí",
+    "sectionLanguage": "JAZYK",
+    "language": "Jazyk",
+    "systemDefault": "Výchozí nastavení systému",
+    "chooseLanguage": "Vyberte jazyk",
+    "sectionSupport": "PODPOŘTE APLIKACI",
+    "shareApp": "Sdílet tuto aplikaci",
+    "rateApp": "Ohodnotit tuto aplikaci",
+    "sectionAbout": "O APLIKACI",
+    "version": "Verze",
+    "remindersUpdatedTitle": "Připomenutí aktualizována",
+    "remindersScheduledOne": "Naplánováno {{count}} ranní připomenutí nadcházejících vzpomínek.",
+    "remindersScheduledOther": "Naplánováno {{count}} ranních připomenutí nadcházejících vzpomínek.",
+    "remindersNone": "V příštích 30 dnech nebyly nalezeny žádné nadcházející vzpomínky.",
+    "remindersErrorTitle": "Připomenutí",
+    "remindersError": "Připomenutí se nepodařilo aktualizovat. Zkontrolujte přístup k fotkám a oznámením."
+  },
+  "notification": {
+    "title": "V tento den 📸",
+    "bodyOne": "Z tohoto dne máte v minulých letech 1 vzpomínku.",
+    "bodyOther": "Z tohoto dne máte v minulých letech {{count}} vzpomínek."
+  }
+}

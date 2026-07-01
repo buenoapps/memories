@@ -8,6 +8,7 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 
+import { translate } from '@/i18n';
 import { useSettings } from '@/hooks/use-settings';
 import { buildSingleYear, buildYears, dayRange, YEARS_BACK } from '@/utils/memories';
 
@@ -132,7 +133,7 @@ export function useMemories(options?: UseMemoriesOptions): MemoriesState {
     } catch (error) {
       setSafe({
         status: 'error',
-        message: error instanceof Error ? error.message : 'Could not load your photos.',
+        message: error instanceof Error ? error.message : translate('status.loadError'),
         retry: loadGroups,
       });
     }
@@ -149,7 +150,7 @@ export function useMemories(options?: UseMemoriesOptions): MemoriesState {
     } catch (error) {
       setSafe({
         status: 'error',
-        message: error instanceof Error ? error.message : 'Could not request photo access.',
+        message: error instanceof Error ? error.message : translate('status.requestError'),
         retry: requestPermission,
       });
     }
@@ -177,7 +178,7 @@ export function useMemories(options?: UseMemoriesOptions): MemoriesState {
       } catch (error) {
         setSafe({
           status: 'error',
-          message: error instanceof Error ? error.message : 'Could not access your photos.',
+          message: error instanceof Error ? error.message : translate('status.accessError'),
           retry: loadGroups,
         });
       }

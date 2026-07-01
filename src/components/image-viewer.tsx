@@ -29,6 +29,7 @@ import { VideoPage } from '@/components/video-page';
 import { Spacing } from '@/constants/theme';
 import type { MemoryPhoto } from '@/hooks/use-memories';
 import { useFreeOrientationWhileMounted } from '@/hooks/use-orientation';
+import { useTranslation } from '@/hooks/use-settings';
 import { shareAssets } from '@/utils/share';
 
 /** Vertical drag distance / velocity past which a swipe dismisses the viewer. */
@@ -53,6 +54,7 @@ export type ImageViewerProps = {
  */
 export function ImageViewer({ photos, initialIndex, onClose }: ImageViewerProps) {
   useFreeOrientationWhileMounted();
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const [index, setIndex] = useState(initialIndex);
@@ -142,16 +144,23 @@ export function ImageViewer({ photos, initialIndex, onClose }: ImageViewerProps)
         <Animated.View
           entering={FadeIn}
           style={[styles.header, { paddingTop: insets.top + Spacing.two }]}>
-          <IconButton name="close" color="#fff" accessibilityLabel="Close" onPress={onClose} />
+          <IconButton
+            name="close"
+            color="#fff"
+            accessibilityLabel={t('common.close')}
+            onPress={onClose}
+          />
           <ThemedText style={styles.counter}>
-            {photos.length > 0 ? `${index + 1} of ${photos.length}` : ''}
+            {photos.length > 0
+              ? t('slideshow.counter', { index: index + 1, total: photos.length })
+              : ''}
           </ThemedText>
           {current ? (
             <ActionMenu
               tintColor="#fff"
               actions={[
                 {
-                  label: 'Share',
+                  label: t('common.share'),
                   icon: 'share',
                   onPress: () => {
                     void shareAssets([current.id]);

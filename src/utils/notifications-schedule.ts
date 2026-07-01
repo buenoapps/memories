@@ -3,6 +3,7 @@
  * notifications. The native scheduling lives in `use-notifications`; the date
  * maths lives here so it can be unit tested without the notifications module.
  */
+import { plural, translate } from '@/i18n';
 
 /** Hour of the day (local time) the morning reminder fires at. */
 export const MORNING_HOUR = 9;
@@ -41,6 +42,10 @@ export function buildLookaheadDays(
 
 /** Builds the notification copy shown for a day with `count` memories. */
 export function notificationBody(count: number): string {
-  if (count === 1) return 'You have 1 memory from this day in past years.';
-  return `You have ${count} memories from this day in past years.`;
+  return translate(plural('notification.body', count), { count });
+}
+
+/** The notification title, translated into the active locale. */
+export function notificationTitle(): string {
+  return translate('notification.title');
 }
